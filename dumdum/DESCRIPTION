@@ -1,0 +1,16 @@
+Package: dumdum
+Title: An Easy Way to Make Dummy (Binary) Variables
+Version: 0.0.8
+Authors@R: 
+    person(given = "Peter",
+           family = "Licari",
+           role = c("aut", "cre"),
+           email = "prlicari13@gmail.com",
+           comment = c(ORCID = "0000-0001-9701-6006"))
+Description: dumdum allows for users to easily create dummy variables from factor, string, or numeric variables. Users can make dummy variables, specify which variables (if any) they want to preserve as a reference category, and automatically rename the constructed variables to their specifications.
+Depends: R (>= 3.0.1)
+License: `use_mit_license()`
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
