@@ -62,7 +62,7 @@ dummify<-function(data, var, reference = NULL, dumNames = NULL){
       if(index){
         cmd <- paste0("df$",y[[i]],"_",sub(" ","",v),"<-ifelse(df[",shQuote(z),"]=='",v,"', 1, 0)")
       } else {
-        cmd <- paste0("df$",y[[i]],"<-ifelse(df[",shQuote(z),"]== '",v,"', 1, 0)")
+        cmd <- paste0("df$",sub(" ","",y[[i]]),"<-ifelse(df[",shQuote(z),"]== '",v,"', 1, 0)")
       }
       eval(parse(text = cmd), envir = parent.frame())
     }
