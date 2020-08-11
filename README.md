@@ -51,10 +51,13 @@ remotes::install_github("prlitics/dumdum")
 
 ## Functions
 
-There are two functions in `dumdum` \* `dummify()` which allows you to
-make dummy variables from a specified dataframe and variable. (This is
-the main function in `dumdum`) \* `dummify_across()` a wrapper for
-`dummify()` that lets users dummify multiple variables at once.
+There are two functions in `dumdum`
+
+  - `dummify()` which allows you to make dummy variables from a
+    specified dataframe and variable. (This is the main function in
+    `dumdum`)
+  - `dummify_across()` a wrapper for `dummify()` that lets users dummify
+    multiple variables at once.
 
 ## Background about Example Data and dummify()
 
