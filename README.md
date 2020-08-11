@@ -59,30 +59,11 @@ There are two functions in `dumdum`
   - `dummify_across()` a wrapper for `dummify()` that lets users dummify
     multiple variables at once.
 
-## Background about Example Data and dummify()
+## Background in-depth look at `dummify()`
 
   - [`dummify()` examples](#dummify)
   - [`dummify_across` examples](#dummify_across)
   - [Playing nice with pipes](#playing-nice-with-pipes)
-
-These examples are going to use the [Palmer
-Penguins](https://github.com/allisonhorst/palmerpenguins) dataset
-because there are a number of “dummy-able” variables in it. (And, also,
-like, penguins\!\!)
-
-``` r
-library(dumdum)
-penguins<-palmerpenguins::penguins
-```
-
-| species | island    | bill\_length\_mm | bill\_depth\_mm | flipper\_length\_mm | body\_mass\_g | sex    | year |
-| :------ | :-------- | ---------------: | --------------: | ------------------: | ------------: | :----- | ---: |
-| Adelie  | Torgersen |             39.1 |            18.7 |                 181 |          3750 | male   | 2007 |
-| Adelie  | Torgersen |             39.5 |            17.4 |                 186 |          3800 | female | 2007 |
-| Adelie  | Torgersen |             40.3 |            18.0 |                 195 |          3250 | female | 2007 |
-| Adelie  | Torgersen |               NA |              NA |                  NA |            NA | NA     | 2007 |
-| Adelie  | Torgersen |             36.7 |            19.3 |                 193 |          3450 | female | 2007 |
-| Adelie  | Torgersen |             39.3 |            20.6 |                 190 |          3650 | male   | 2007 |
 
 `dummify()` has 4 arguments; 2 mandatory and 2 options. The options are
 set to `NULL` as default.
@@ -119,6 +100,25 @@ dummify(data, var, reference = NULL, dumNames = NULL)
         sure the names are in the right order. (``)
 
 ## Examples
+
+These examples are going to use the [Palmer
+Penguins](https://github.com/allisonhorst/palmerpenguins) dataset
+because there are a number of “dummy-able” variables in it. (And, also,
+like, penguins\!\!)
+
+``` r
+library(dumdum)
+penguins<-palmerpenguins::penguins
+```
+
+| species | island    | bill\_length\_mm | bill\_depth\_mm | flipper\_length\_mm | body\_mass\_g | sex    | year |
+| :------ | :-------- | ---------------: | --------------: | ------------------: | ------------: | :----- | ---: |
+| Adelie  | Torgersen |             39.1 |            18.7 |                 181 |          3750 | male   | 2007 |
+| Adelie  | Torgersen |             39.5 |            17.4 |                 186 |          3800 | female | 2007 |
+| Adelie  | Torgersen |             40.3 |            18.0 |                 195 |          3250 | female | 2007 |
+| Adelie  | Torgersen |               NA |              NA |                  NA |            NA | NA     | 2007 |
+| Adelie  | Torgersen |             36.7 |            19.3 |                 193 |          3450 | female | 2007 |
+| Adelie  | Torgersen |             39.3 |            20.6 |                 190 |          3650 | male   | 2007 |
 
 ### `dummify`
 

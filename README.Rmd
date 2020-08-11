@@ -48,25 +48,11 @@ There are two functions in `dumdum`
 * `dummify()` which allows you to make dummy variables from a specified dataframe and variable. (This is the main function in `dumdum`)
 * `dummify_across()` a wrapper for `dummify()` that lets users dummify multiple variables at once.
 
-## Background about Example Data and dummify()
+## Background in-depth look at `dummify()`
 
 * [`dummify()` examples](#dummify)
 * [`dummify_across` examples](#dummify_across)
 * [Playing nice with pipes](#playing-nice-with-pipes)
-
-These examples are going to use the [Palmer Penguins](https://github.com/allisonhorst/palmerpenguins) dataset because there are a number of "dummy-able" variables in it. (And, also, like, penguins!!)
-
-
-
-```{r example}
-library(dumdum)
-penguins<-palmerpenguins::penguins
-```
-
-```{r echo=FALSE}
-knitr::kable(head(penguins))
-```
-
 
 `dummify()` has 4 arguments; 2 mandatory and 2 options. The options are set to `NULL` as default.
 
@@ -90,6 +76,19 @@ dummify(data, var, reference = NULL, dumNames = NULL)
     *`dumNames` can also accept a named list so that you don't have to worry about making sure the names are in the right order. (```r dumNames = c("Ad"="Adelie","Ge"="Gentoo","Ch"="Chinstrap")```)
 
 ## Examples
+These examples are going to use the [Palmer Penguins](https://github.com/allisonhorst/palmerpenguins) dataset because there are a number of "dummy-able" variables in it. (And, also, like, penguins!!)
+
+
+
+```{r example}
+library(dumdum)
+penguins<-palmerpenguins::penguins
+```
+
+```{r echo=FALSE}
+knitr::kable(head(penguins))
+```
+
 ### `dummify` {#dummify}
 Let's say that you want to make a dummy variable for the penguins' sex because you plan to run a regression where you check to see if sex is predictive of body mass. To make dummy variables out of species, you could do this with `dummify()`:
 
