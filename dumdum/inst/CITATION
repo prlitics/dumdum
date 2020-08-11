@@ -1,0 +1,14 @@
+citHeader("To cite dumdum in publications use:")
+
+citEntry(
+  entry = "Manual",
+  title    = "dumdum: Make dummy variables easily in R",
+  author   =  "Peter Licari",
+  year     =  2020,
+  url      =  "https://github.com/prlitics/dumdum",
+  note     = "version 0.8.0",
+  textVersion = paste("Licari, P. R. (2020). dumdum: Make dummy variables easily in R. version 0.8.0.
+  https://github.com/prlitics/dumdum/."
+
+  )
+)

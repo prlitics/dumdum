@@ -1,0 +1,136 @@
+---
+title: "dumdum"
+subtitle: "Make dummy variables easily in R"
+author: "Peter Licari"
+output: rmarkdown::html_vignette
+description: >
+  Dummy variables are a frequent part of analyses in the social sciences. However,
+  Base R does not have any easy way of making dummies--especially if the variable 
+  in question has many categories. This document will describe how to use the 
+  dumdum package to make creating dummy variables a far less cumbersome task. 
+vignette: >
+  %\VignetteIndexEntry{dumdum}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Currently, the go-to way of making dummy variables in base R is  with a series of `ifelse()` statements. This can be an arduous process if you have a variable with several values--which is pretty common in social science analyses (e.g., race, education level, employment status, political party identification, etc.). This cuts down on the work, gives you the ability to easily rename the new, dummied variables, and also makes [selecting reference categories](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqwhat-is-dummy-coding/) simple. It also allows you to make dummies across many variables at once.  
+
+This document describes how to use the `dumdum` package and it's two core functions `dummify()` and `dummify_across()` to make constructing dummy variables (i.e., binary, 0/1 variables) much less cumbersome. 
+
+# Table of Contents{#link0}
+
+1. [`dummify()`](#link1)
+    * [`data`](#link2)
+    * [`var`](#link3)
+    * [`reference`](#link4) 
+    * [`dumNames`](#link5)
+    * [`keepNA`](#link11)
+2. [`dummify_across()`](#link6)
+    * [`data`](#link7)
+    * [`vars`](#link8)
+    * [`reference](#link9)
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(include = FALSE)
+library(dumdum)
+```
+
+# `dummify()`{#link1}
+
+`dummify()` has 4 arguments: `data`, `var`, `reference`, `dumNames`, and `keepNA`. It accepts a data frame and variable name, in `" "`, and returns a data frame that is equal to the one passed except it has additional columns with the new dummy variables. With the default options, these columns follow the naming convention `OriginalVarName_DUM_Value`. It only accepts one variable at a time. To analyze multiple variables, use [`dummify_across()`](#link6).
+
+[Return to top.](#link0)
+
+## `data` {#link2}
+Currenty, `dummify()` accepts objects that return `TRUE` when passed to `is.data.frame()`. Future updates may seek to expand this usage if there is a demand for it. 
+
+[Return to top.](#link0)
+
+## `var` {#link3}
+`var` accepts a single variable name, enclosed in strings (e.g., `"var"` not `var`). `var` the values in var can be a character, interval, or factor. Currently, `dummify()` will temporarily recode factor variables as characters and then reconvert them to factor using the original levels. This results in a warning so that you, the user, know that this happened and advises you to check and make sure the levels are in the order you want them to be.
+
+```{r varExample1, echo=TRUE, include=TRUE, eval=FALSE}
+dummify(data = iris, var = "Species")
+```
+
+`var` also accepts the column index of the variable that you want to make into dummy variables. 
+
+```{r varExample2, echo=TRUE, include=TRUE, eval=FALSE}
+dummify(data = iris, var = 5)
+```
+[Return to top.](#link0)
+
+## `reference`{#link4}
+`reference` is the first of two optional variables in `dummify()`. Its default is `NULL`. In regression analysis using sets of dummy variables, at least one of the variables must be excluded to avoid [perfect multicollinearity](https://en.wikipedia.org/wiki/Dummy_variable_(statistics)#Incorporating_a_dummy_independent). This is the "reference category"--or the category that all the other dummy variables are compared to with regards to their coefficients and statistical significance testing. This option allows users to make a reference category for their variables and to specify which value (or values) they want to serve as the reference.
+
+`reference` can be either `TRUE` or a character vector of values within the variable being dummified. If the user tries to pass a value that is not within the actual values of the variable, `dummify()` will pass a warning alerting them of this and proceed with the default renaming procedure.
+
+If `reference` is set to `TRUE` it will exclude the first value it encounters as the reference. If it is set to a character vector, it will exclude all the values specified in the vector.
+
+```{r reference, echo=TRUE, include=TRUE, eval=FALSE}
+dummify(data = iris, var = "Species", reference = T)
+
+dummify(data = iris, var = "Species", reference = "setosa")
+
+dummify(data = iris, var = "Species", reference = c("setosa", "virginica"))
+```
+[Return to top.](#link0)
+
+## `dumNames`{#link5}
+`dumNames` allows the user to overwrite the default naming convention and specify their own names for the variables to be made. It defaults to `NULL`. It accepts either a character vector or a named character vector. Currently, if the vector of names does not equal the number of values passed to the function (e.g., the number of values excluding reference categories), it will pass back a warning and instead proceed with the default renaming procedure.  
+
+```{r dumNames, echo=TRUE, include=TRUE, eval=FALSE}
+dummify(data = iris, var = "Species", dumNames = c("BristlePointed","BlueFlag","Virginia"))
+dummify(data = iris, var = "Species", dumNames = c("BristlePointed" = "setosa",
+  "BlueFlag" = "versicolor","Virginia" = "virginica"))
+```
+[Return to top.](#link0)
+
+## `keepNA`
+Researchers may consider `NA` values as informative, and thus may want to have a column where `1` indicates if the values were `NA` and `0` if they were not. The default behavior (`keepNA = TRUE`) constructs such a column. If users do not want to consider NAs in dummying, they can set `keepNA = FALSE`.
+
+
+# `dummify_across()`{#link6}
+`dummify_across()` allows users to create dummies from multiple variables at the same time. This can be handy if you are working with a dataset that has multiple categorical variables, such as respondent sex and martial status. It accepts three arguments: `data`, `vars`, and `reference`. 
+
+`dummify_across()` is essentially a wrapper that calls [`dummify()`](#link1) multiple times over each variable specified.
+
+[Return to top.](#link0)
+
+## `data` {#link7}
+Currenty, `dummify_across()` accepts objects that return `TRUE` when passed to `is.data.frame()`. Future updates may seek to expand this usage if there is a demand for it. 
+
+[Return to top.](#link0)
+
+## `vars` {#link8}
+`vars` are the variables that you, the user, want to make dummies out of. It accepts either a character vector or a vector of column indices. It will not accept vectors with only one entry. If you would like to only make dummies out of one variable, use [`dummify()`](#link1) instead.
+
+```{r vars, echo=TRUE, include=TRUE, eval=FALSE}
+#install.packages("palmerpenguins")
+
+library(palmerpenguins)
+
+dummify_across(penguins, c("species","island","sex"))
+dummify_across(penguins, c(1,2,7))
+```
+[Return to top.](#link0)
+
+## `reference`{#link9}
+`reference` is an option that allows you to indicate if you want all of the variables to have a reference category. It defaults to `NULL`. It accepts `TRUE`, which will create reference categories out of the first-encountered value for all of the variables. 
+
+Future updates to `dumdum` will allow users to specify which variables they would like to have reference values--and the values they want to exclude from each variable. 
+
+```{r references, echo=TRUE, include=TRUE, eval=FALSE}
+
+dummify_across(penguins, c("species","island","sex"), reference = TRUE)
+```
+
+[Return to top.](#link0)

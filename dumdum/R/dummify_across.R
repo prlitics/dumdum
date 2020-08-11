@@ -16,7 +16,7 @@
 #' @keywords dummy
 #' @seealso \code{\link{dummify}}
 #' @examples
-#' #assumes package palmerpenguins is installed
+#' install.packages("palmerpenguins")
 #'
 #' penguins<-palmerpenguins::penguins
 #'

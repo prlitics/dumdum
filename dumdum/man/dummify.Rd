@@ -4,7 +4,7 @@
 \alias{dummify}
 \title{Make Dummy (Binary) Variable from the Values of Another Variable}
 \usage{
-dummify(data, var, reference = NULL, dumNames = NULL)
+dummify(data, var, reference = NULL, dumNames = NULL, keepNA = TRUE)
 }
 \arguments{
 \item{data}{A dataframe containing the variable to be dummied.}
@@ -20,6 +20,8 @@ then \code{dummify()} will leave out all identified variables.}
 Accepts a character vector or a named list. If passed a character vector, the columns will be renamed in the order of the list.
 If \code{reference} is a named list, \code{dummify()} will rename the dummied column where the named value is equal to 1 with the
 name passed.}
+
+\item{keepNA}{Defaults to TRUE. An optional parameter that allows users to decide if they want to consider NAs as values to be turned into a dummy column.}
 }
 \value{
 The inputted dataframe with additional columns containing the dummified variables
@@ -35,9 +37,10 @@ dummify(data = iris, var = "Species")
 dummify(data = iris, var = 5)
 dummify(data = iris, var = "Species", reference = TRUE)
 dummify(data = iris, var = "Species", reference = "setosa")
+dummify(data = iris, var = "Species", reference = "setosa", keepNA = FALSE)
 dummify(data = iris, var = "Species", reference = c("setosa","virginica"))
 dummify(data = iris, var = "Species", dumNames = c("BristlePointed","BlueFlag","Virginia"))
 dummify(data = iris, var = "Species", dumNames = c("BristlePointed" = "setosa",
-"BlueFlag" = "versicolor","Virginia"="virginica"))
+"BlueFlag" = "versicolor","Virginia" = "virginica"))
 }
 \keyword{dummy}

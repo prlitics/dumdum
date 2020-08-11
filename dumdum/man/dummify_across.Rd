@@ -27,7 +27,7 @@ call. Currently, automatic renaming of variables and manual selection of referen
 is limited to \code{dummify()}.
 }
 \examples{
-#assumes package palmerpenguins is installed
+install.packages("palmerpenguins")
 
 penguins<-palmerpenguins::penguins
 

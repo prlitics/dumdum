@@ -16,6 +16,7 @@
 #'  Accepts a character vector or a named list. If passed a character vector, the columns will be renamed in the order of the list.
 #'   If \code{reference} is a named list, \code{dummify()} will rename the dummied column where the named value is equal to 1 with the
 #'   name passed.
+#' @param keepNA Defaults to TRUE. An optional parameter that allows users to decide if they want to consider NAs as values to be turned into a dummy column.
 #'
 #' @return The inputted dataframe with additional columns containing the dummified variables
 #' @keywords dummy
@@ -24,16 +25,17 @@
 #' dummify(data = iris, var = 5)
 #' dummify(data = iris, var = "Species", reference = TRUE)
 #' dummify(data = iris, var = "Species", reference = "setosa")
+#' dummify(data = iris, var = "Species", reference = "setosa", keepNA = FALSE)
 #' dummify(data = iris, var = "Species", reference = c("setosa","virginica"))
 #' dummify(data = iris, var = "Species", dumNames = c("BristlePointed","BlueFlag","Virginia"))
 #' dummify(data = iris, var = "Species", dumNames = c("BristlePointed" = "setosa",
 #' "BlueFlag" = "versicolor","Virginia" = "virginica"))
 #' @export
-#'
 
 
 
-dummify<-function(data, var, reference = NULL, dumNames = NULL){
+
+dummify<-function(data, var, reference = NULL, dumNames = NULL, keepNA = TRUE){
 
 
 
@@ -59,14 +61,26 @@ dummify<-function(data, var, reference = NULL, dumNames = NULL){
     i <- 0
     for (v in x) {
       i <- i + 1
+      if(is.na(v)==FALSE){
       if(index){
         cmd <- paste0("df$",y[[i]],"_",sub(" ","",v),"<-ifelse(df[",shQuote(z),"]=='",v,"', 1, 0)")
       } else {
         cmd <- paste0("df$",sub(" ","",y[[i]]),"<-ifelse(df[",shQuote(z),"]== '",v,"', 1, 0)")
       }
       eval(parse(text = cmd), envir = parent.frame())
+      }else{
+          if(index){
+            cmd <- paste0("df$",y[[i]],"_NA<-ifelse(is.na(df[[",shQuote(z),"]]), 1, 0)")
+          } else {
+            cmd <- paste0("df$",sub(" ","",y[[i]]),"<-ifelse(is.na(df[[",shQuote(z),"]]), 1, 0)")
+          }
+          eval(parse(text = cmd), envir = parent.frame())
+        }
+      }
+
+
     }
-  }
+
 
   #############################
   ## Get Var and DataFrame
@@ -101,7 +115,7 @@ dummify<-function(data, var, reference = NULL, dumNames = NULL){
 
 
   if(is.data.frame(df) != TRUE){
-    stop(paste0("Data is type ",typeof(data),". dummify() only accepts type dataframe."))
+    stop(paste0("Data is type ",typeof(data),". dummify() only accepts objects with class data.frame."))
   }
   ############################################
 
@@ -128,7 +142,14 @@ dummify<-function(data, var, reference = NULL, dumNames = NULL){
   ## Get values of variable
   ###########################
 
-  vals<-unique(df[[var]])
+
+
+  if(keepNA==TRUE){
+    vals<-unique(df[[var]])
+    } else{
+    vals<-unique(df[[var]])
+    vals<-vals[!is.na(vals)]
+  }
 
   ###########################
 
@@ -155,10 +176,13 @@ dummify<-function(data, var, reference = NULL, dumNames = NULL){
     if(typeof(reference)!= typeof(vals) & is.logical(reference) == FALSE){
       warning(paste0("Ommitted is type ",typeof(reference)," but ",var," is type ",typeof(vals)))}
 
-    if(length(reference>1)){
+    if(length(reference>=1)){
       sapply(reference, app_test)
       vals<-vals[!(vals %in% reference)]}
 
+    if("NA" %in% reference | NA %in% reference){
+      vals<-vals[!is.na(vals)]
+    }
 
   }
   #######################################
