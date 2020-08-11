@@ -307,9 +307,13 @@ license](https://choosealicense.com/licenses/mit/).
 
 ## References
 
-**Data & packages used in this readme.** \* Horst AM, Hill AP, Gorman KB
-(2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R
-package version 0.1.0. <https://allisonhorst.github.io/palmerpenguins/>.
-doi: 10.5281/zenodo.3960218. \* Stefan Milton Bache and Hadley Wickham
-(2014). magrittr: A Forward-Pipe Operator for R. R package version 1.5.
-<https://CRAN.R-project.org/package=magrittr>
+**Data & packages used in this readme.**
+
+  - Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer
+    Archipelago (Antarctica) penguin data. R package version 0.1.0.
+    <https://allisonhorst.github.io/palmerpenguins/>. doi:
+    10.5281/zenodo.3960218.
+
+  - Stefan Milton Bache and Hadley Wickham (2014). magrittr: A
+    Forward-Pipe Operator for R. R package version 1.5.
+    <https://CRAN.R-project.org/package=magrittr>
