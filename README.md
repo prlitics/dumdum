@@ -3,7 +3,7 @@
 
 <!--html_preserve-->
 
-<img src="https://i.imgur.com/pa4i2JM.png" alt="dumdum_hexagon" style="position:absolute; top:0; right:0; padding:10px; height:120px"/><!--/html_preserve-->
+<img src="https://i.imgur.com/pa4i2JM.png" alt="dumdum_hexagon" style="position:absolute; top:0; right:0; padding:10px; width:60%"/><!--/html_preserve-->
 
 # dumdum
 
