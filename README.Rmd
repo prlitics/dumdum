@@ -13,19 +13,21 @@ knitr::opts_chunk$set(
 )
 ```
 ```{r, echo=FALSE}
-htmltools::img(src= knitr::image_uri("C:/Users/prlic/Documents/GitHub/dumdum/hexagon.png"), alt = 'dumdum_hexagon', style = 'position:absolute; top:0; right:0; padding:10px; height:120px')
+htmltools::img(src= "https://i.imgur.com/pa4i2JM.png", alt = 'dumdum_hexagon', style = 'position:absolute; top:0; right:0; padding:10px; height:120px')
 ```
 
 
 # dumdum
-## Make dummy variableseasily in R
+## Make dummy variables easily in R
 <!-- badges: start -->
 ![version](https://img.shields.io/badge/version-v.0.8.5-blue)
 ![size](https://img.shields.io/github/repo-size/prlitics/dumdum)
 ![issues](https://img.shields.io/github/issues/prlitics/dumdum)
 <!-- badges: end -->
 
-Dummy variables (binary, 0/1 variables) are a frequent part of analyses in the social sciences. But making them can be an arduous process in base R, which tends rely on  numerous `ifelse()`statements. This can be especially trying and headache-inducing if you have a variable with several values (e.g., race, education level, employment status, political party identification, etc.). `dumdum` cuts down on the work, gives you the ability to easily rename the new, dummied variables, and also makes [selecting reference categories](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqwhat-is-dummy-coding/) simple. It also allows you to make dummies across many variables at once. 
+Dummy variables (binary, 0/1 variables) are a frequent part of analyses in the social sciences. But making them can be an arduous process in base R, which tends rely on  numerous `ifelse()`statements. This can be especially trying and headache-inducing if you have a variable with several values (e.g., race, education level, employment status, political party identification, etc.). 
+
+`dumdum` cuts down on the work, gives you the ability to easily rename the new, dummied variables, and also makes [selecting reference categories](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqwhat-is-dummy-coding/) simple. It also allows you to make dummies across many variables at once. 
 
 There are currently a few other packages that helps users make dummy variables such as `ml`, `caret`, `tidymodels`, and `fastdummies`. What sets `dumdum` apart is that it was designed with social-scientists and non-machine learning folk in mind. Its functions are flexible and intuitive. It also requires no package dependencies; all that's necessary to have installed are the base R packages!
 
@@ -131,16 +133,30 @@ knitr::kable(head(penguins_dummied))
 ### `dummify_across`
 Let's say that there are multiple variables that you want to dummy across. In the case of the penguins, you might want to dummy species, as well as the island and sex. You can do so with `dummify_across()`. 
 
-`dummify_across()` is a wrapper for `dummify()` that allows you to pass multiple variables at once. Like `dummify()`,  you specify a data frame object and you 
+`dummify_across()` is a wrapper for `dummify()` that allows you to pass multiple variables at once. Like `dummify()`,  you specify a data frame object and you specify a set of variables (`vars`) that you want to be dummified. These can either be names or column indices. 
 
+```{r warning=FALSE}
+penguins_dummied<-dummify_across(data = penguins, vars = c("sex","species","island"))
+```
+```{r, echo=FALSE}
+knitr::kable(head(penguins_dummied))
+```
 
+You can also pass along whether or not you want `dummify_across()` to leave out a reference column for the variables you selected:
 
-Currently, `dummify_across()` will only leave out the first encountered variable as a reference. 
+```{r warning=FALSE}
+penguins_dummied<-dummify_across(data = penguins, vars = c("sex","species","island"), reference = TRUE)
+```
+```{r, echo=FALSE}
+knitr::kable(head(penguins_dummied))
+```
+
+Currently, `dummify_across()` will only leave out the first encountered variable as a reference. Future updates to the package will allow you to specify which variables you want to have reference categories for--as well as the values for those references.  
 
 ### Playing nice with pipes
 I personally am a huge fan of the [`tidyverse`](https://www.tidyverse.org/); it's what allowed me to get my feet wet with R before I could truly dive into it. I know a lot of potential `dumdum` users would also use the `tidyverse`, so it was important to me that `dumdum` functions were *pipe*-able. 
 
-```{r}
+```{r warning=FALSE}
 library(magrittr)
 pen_df <- penguins %>%
   dummify("sex")
@@ -150,7 +166,17 @@ pen_df <- penguins %>%
 knitr::kable(head(pen_df))
 ```
 
+```{r warning=FALSE}
+pen_df <- penguins %>%
+  dummify_across(c("sex","island","species"))
 
+```
+```{r, echo=FALSE}
+knitr::kable(head(pen_df))
+```
+
+## Bugs or suggestions
+If you have any bugs or suggestions, [let me know!](https://github.com/prlitics/dumdum/issues) Always happy for constructive feedback. 
 
 ## Acknowledgements
 Huge thanks to [Sabrina Marasa](https://twitter.com/sabrina_marasa), who tested the package on the Mac version of R. 

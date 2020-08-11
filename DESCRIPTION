@@ -10,6 +10,8 @@ Authors@R:
 Description: dumdum allows for users to easily create dummy variables from factor, string, or numeric variables. Users can make dummy variables, specify which variables (if any) they want to preserve as a reference category, and automatically rename the constructed variables to their specifications.
 Depends: R (>= 3.0.1)
 License: use_mit_license()
+URL: https://github.com/prlitics/dumdum/
+BugReports: https://github.com/prlitics/dumdum/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
