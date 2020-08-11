@@ -1,11 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<!--html_preserve-->
-
-<img src="https://i.imgur.com/pa4i2JM.png" alt="dumdum_hexagon" style="position:absolute; top:0; right:0; padding:10px; width:120px; height:120px"/><!--/html_preserve-->
-
-# dumdum
+# dumdum <img src="https://i.imgur.com/pa4i2JM.png" alt="dumdum_hexagon" width="120px" align ="right"/>
 
 ## Make dummy variables easily in R
 
